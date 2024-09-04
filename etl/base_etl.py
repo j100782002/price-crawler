@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from utils import upload_to_sheets
+
 
 class BaseETL(ABC):
-    def __init__(self, product):
-        self.product = product
+    def __init__(self, url):
+        self.url = url
     
     def process(self):
         # 執行整個 ETL 流程
@@ -23,4 +23,4 @@ class BaseETL(ABC):
     
     def load(self, data):
         # 將轉換後的數據加載到 Google Sheets
-        upload_to_sheets(data)
+        pass
