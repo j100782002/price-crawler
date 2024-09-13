@@ -1,10 +1,13 @@
-from etl import ShopeeETL, MomoETL, PChomeETL
+from etl.momo_etl import MomoETL
+from etl.pchome_etl import PChomeETL
+from etl.yahoo_etl import YahooETL
+
 
 def main():
     product = input("請輸入要搜尋的商品: ")
     
     etl_list = [
-        ShopeeETL(product),
+        YahooETL(product),
         MomoETL(product),
         PChomeETL(product)
     ]
