@@ -8,10 +8,49 @@
 - [專案功能](#專案功能)
 - [安裝步驟](#安裝步驟)
 - [使用方式](#使用方式)
-- [貢獻指南](#貢獻指南)
-- [授權](#授權)
+
 
 ## 專案功能
 - 從 Momo、PChome 和 Yahoo 購物網爬取產品的名稱、價格及連結。
 - 將這些資訊自動上傳至 Google Sheets。
+
+## 安裝步驟
+### 1. 克隆專案到本地
+
+```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+```
+
+### 2. 用`pipenv` 安裝依賴
+```bash
+pipenv install
+```
+
+### 3. 啟動虛擬環境
+```bash
+pipenv shell
+```
+
+### 4. 設定 Google Sheets API
+此專案需要訪問 Google Sheets，因此使用者需要下載 Google Sheets API 的認證金鑰，並將其放置在專案utils資料夾下：
+
+進入 Google Cloud Console，創建一個專案並啟用 Google Sheets API。
+在「認證」頁面創建 OAuth 2.0 憑證，並下載 .json 格式的憑證檔案。
+將此檔案重新命名為 Key.json，並放置在專案utils資料夾下。
+
+### 5. 設定google 信箱
+在utils資料夾下，新增一個名為email.txt的檔案，並打上信箱(欲接收上傳資料的google雲端硬碟信箱)
+
+### 6. 運行專案
+```bash
+python main.py
+```
+
+## 使用方式
+
+1. 運行後會問你想購買的產品名稱
+2. 輸入後會開始爬取資料，並將資料上傳至google雲端硬碟
+3. 上傳完成後會說已完成
+4. 接著就可以去google雲端硬碟上看到一個名為shop_web_crawler的試算表，裡面會有你剛剛輸入的商品名稱的工作表，裡面會有爬取的商品名稱、價格及連結
 
