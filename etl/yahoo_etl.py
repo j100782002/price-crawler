@@ -4,13 +4,13 @@ from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
 
-from base_etl import BaseETL
+from .base_etl import BaseETL
 
 class YahooETL(BaseETL):
     def extract(self):
         # 從yahoo提取網頁原始碼
         browser = webdriver.Chrome()
-        url = self.url
+        url = f"https://tw.buy.yahoo.com/search/product?p={self.encoded_prod_name}"
         browser.get(url)
         for y in range(0, 10000, 500):
             browser.execute_script(f"window.scrollTo(0, {y})")
@@ -42,11 +42,4 @@ class YahooETL(BaseETL):
         return products
 
 
-# test
-if __name__ == "__main__":
-    url = "https://tw.buy.yahoo.com/search/product?p=samsung+galaxy+s24"
-    yahoo_etl = YahooETL(url)
-    html =yahoo_etl.extract()
-    products = yahoo_etl.transform(html)
-    print(products)
-    print(len(products))
+

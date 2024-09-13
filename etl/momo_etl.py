@@ -5,13 +5,13 @@ from selenium.webdriver.support import expected_conditions as EC
 import requests
 from bs4 import BeautifulSoup
 
-from base_etl import BaseETL
+from .base_etl import BaseETL
 
 class MomoETL(BaseETL):
     def extract(self):
         # 從 momo 網站提取商品數據
         browser = webdriver.Chrome()
-        url = self.url
+        url = f"https://www.momoshop.com.tw/search/searchShop.jsp?keyword={self.encoded_prod_name}&_isFuzzy=0&searchType=1"
         browser.get(url)
 
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'listArea')))
@@ -32,16 +32,7 @@ class MomoETL(BaseETL):
             price = item.find("span", class_="price").find("b").text
             float_price = float(price.replace(',',''))
             product["price"] = float_price
-            product["link"] = "https://www.momoshop.com.tw/"+item.find("a", class_="goodsUrl")["href"]
+            product["link"] = item.find("a", class_="goods-img-url")["href"]
             products.append(product)
         return products
 
-
-# test
-if __name__ == "__main__":
-    url = "https://www.momoshop.com.tw/search/searchShop.jsp?keyword=samsung%20galaxy%20s24&searchType=1&curPage=1&_isFuzzy=0&showType=chessboardType&isBrandCategory=N&serviceCode=MT01"
-    momo_etl = MomoETL(url)
-    html =momo_etl.extract()
-    products = momo_etl.transform(html)
-    print(products)
-    print(len(products))

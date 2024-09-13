@@ -4,12 +4,12 @@ from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
 
-from base_etl import BaseETL
+from .base_etl import BaseETL
 class PChomeETL(BaseETL):
     def extract(self):
         # 從 PChome 網站提取商品數據
         browser = webdriver.Chrome()
-        url = self.url
+        url = f"https://24h.pchome.com.tw/search/?q={self.encoded_prod_name}"
         browser.get(url)
         for y in range(0, 10000, 500):
             browser.execute_script(f"window.scrollTo(0, {y})")
@@ -33,12 +33,3 @@ class PChomeETL(BaseETL):
             products.append(product)
         return products
 
-
-# test
-if __name__ == "__main__":
-    url = "https://24h.pchome.com.tw/search/?q=samsung+galaxy+s24+256G&scope=all&f=pchome&utm_source=portalindex&utm_medium=search_samsung+galaxy+s24+256G&utm_campaign=portal"
-    pchome_etl = PChomeETL(url)
-    html =pchome_etl.extract()
-    products = pchome_etl.transform(html)
-    print(products)
-    print(len(products))
